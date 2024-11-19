@@ -1,30 +1,30 @@
 import { useState } from 'react';
-import { employee_backend } from 'declarations/employee_backend';
-
+import {BrowserRouter, Route,RouterProvider,Routes,} from "react-router-dom"
+import WelcomePage from './pages/Welcomepage';
+import HomePage from './pages/Homepage';
+import CreateComapny from './pages/CreatePage';
+import AddEmployee from './pages/AddEmployees';
+import ViewComapny from './pages/Viewcomapny';
+import ViewEmploye from './pages/ViewEmployee';
+import { AuthProvider } from './auth/auth';
+import AssignsTaks from './pages/Assignstasks';
 function App() {
   const [greeting, setGreeting] = useState('');
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    employee_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
-
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <BrowserRouter>
+    <AuthProvider>
+      <Routes>
+        <Route path='/' element={<WelcomePage/>}/>
+        <Route path='/home' element={<HomePage/>}/>
+        <Route path='/create' element={<CreateComapny/>}/>
+        <Route path='/addemployee/:name' element={<AddEmployee/>}/>
+        <Route path='/view/:name' element={<ViewComapny/>}/>
+        <Route path='/employee/:id/:name' element={<ViewEmploye/>}/>
+        <Route path='/assignstasks/:id/:name' element={<AssignsTaks/>}/>
+      </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
